@@ -41,7 +41,7 @@ public class LexicalAnalysis {
         int begin = 0;
         index = 0;
         while (index < expLength) {
-            //0 ~ 9
+            //1 ~ 9
             if (isNotZeroNum(index)) {
                 begin = index;
                 passNum();
@@ -55,21 +55,27 @@ public class LexicalAnalysis {
                             mResultList.add(new Result(DOUBLE_CODE, expression.substring(begin, index), expression.substring(begin, index), DOUBLE_TYPE));
                         }
                     } else {
-                        mErrList.add(new Err(".", index));
-                        mResultList.add(new Result(INT_CODE, expression.substring(begin, index - 1), expression.substring(begin, index - 1), INT_TYPE));
+                        mErrList.add(new Err(expression.substring(begin, index), index));
                     }
                 } else {
                     mResultList.add(new Result(INT_CODE, expression.substring(begin, index), expression.substring(begin, index), INT_TYPE));
                 }
+                //0
             } else if (isZero(index)) {
                 begin = index;
                 index++;
                 if (index < expLength) {
                     //
                     if (isNum(index)) {
-                        mResultList.add(new Result(INT_CODE, expression.substring(begin, index), expression.substring(begin, index), INT_TYPE));
+                        passNum();
+                        if (index + 1 < expLength && isDecimalPoint(index + 1)) {
+                            index++;
+                            passNum();
+                        }
+                        index++;
+                        mErrList.add(new Err(expression.substring(begin, index), begin));
                     } else if (index < expLength && isDecimalPoint(index)) {
-                        //TODO
+
                         if (index + 1 < expLength) {
                             if (isNum(index + 1)) {
                                 passNum();
@@ -78,7 +84,7 @@ public class LexicalAnalysis {
                                     mResultList.add(new Result(DOUBLE_CODE, expression.substring(begin, index), expression.substring(begin, index), DOUBLE_TYPE));
                                 }
                             } else {
-                                mResultList.add(new Result(INT_CODE, expression.substring(begin, index), expression.substring(begin, index ), INT_TYPE));
+                                mResultList.add(new Result(INT_CODE, expression.substring(begin, index), expression.substring(begin, index), INT_TYPE));
                             }
                         } else {
                             mResultList.add(new Result(INT_CODE, expression.substring(begin, index), expression.substring(begin, index), INT_TYPE));

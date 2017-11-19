@@ -49,6 +49,12 @@ public class Result {
 
     @Override
     public String toString() {
-        return "(" + code + "," + originStr + "," + value + "," + type + ")";
+        if ("int".equals(type)) {
+            return "(" + code + "," + originStr + "," + Integer.parseInt(value) + "," + type + ")";
+        } else if ("double".equals(type)) {
+            return "(" + code + "," + originStr + "," + Double.parseDouble(value) + "," + type + ")";
+        } else {
+            return "(" + code + "," + originStr + "," + value + "," + type + ")";
+        }
     }
 }

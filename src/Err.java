@@ -29,6 +29,6 @@ public class Err {
 
     @Override
     public String toString() {
-        return "第" + pos + "个字符\"" + errStr + "\"是非法字符";
+        return "第" + (pos + 1) + "个字符\"" + errStr + "\"是非法字符";
     }
 }
