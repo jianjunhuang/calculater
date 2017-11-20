@@ -96,6 +96,18 @@ public class LexicalAnalysis {
                     mResultList.add(new Result(INT_CODE, expression.substring(begin, expLength), expression.substring(begin, expLength), INT_TYPE));
                 }
 
+            } else if (isDecimalPoint(index)) {
+                begin = index;
+                index++;
+                if (index < expLength) {
+                    if (isNum(index)) {
+                        passNum();
+                        index++;
+                    }
+                    mErrList.add(new Err(expression.substring(begin, index), begin));
+                } else {
+                    mErrList.add(new Err(expression.substring(begin, expLength), begin));
+                }
             } else {
                 analysisOp(index);
             }
